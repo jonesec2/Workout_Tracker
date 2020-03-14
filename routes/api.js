@@ -2,12 +2,11 @@ const router = require("express").Router();
 const db = require("../models");
 
 router.get("/api/workouts", (req, res) => {
-   console.log(req);
-   console.log(res);
    db.Workout.find({})
       .then(dbWorkout => {
          for (const workout of dbWorkout) {
             workout.setTotalDuration();
+            console.log(workout.setTotalDuration())
          }
          res.json(dbWorkout);
       })
@@ -17,8 +16,6 @@ router.get("/api/workouts", (req, res) => {
 });
 
 router.post("/api/workouts", (req, res) => {
-   console.log(req);
-   console.log(res);
    db.Workout.create(req.body)
       .then(dbWorkout => {
          res.json(dbWorkout);
