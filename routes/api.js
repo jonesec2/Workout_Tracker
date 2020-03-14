@@ -6,7 +6,6 @@ router.get("/api/workouts", (req, res) => {
       .then(dbWorkout => {
          for (const workout of dbWorkout) {
             workout.getDuration();
-            console.log(workout.getDuration())
          }
          res.json(dbWorkout);
       })
@@ -27,14 +26,14 @@ router.post("/api/workouts", (req, res) => {
 });
 
 router.put("/api/workouts/:id", (req, res) => {
-   console.log(req.params.id);
-   console.log(req.body);
    db.Workout.updateOne(
       {
          _id: req.params.id
       },
       {
-         $push: { exercises: req.body }
+         $push: {
+            exercises: req.body
+         }
       }
    )
       .then(dbWorkout => {
@@ -42,6 +41,23 @@ router.put("/api/workouts/:id", (req, res) => {
       })
       .catch(err => {
          res.json(err);
+      });
+});
+
+router.get("/api/workouts/range", (req, res) => {
+   db.Workout.find({})
+      .sort(
+         {
+            day: -1
+         }
+      )
+      .limit(7)
+      .then(dbWorkout => {
+         dbWorkout.reverse();
+         res.json(dbWorkout);
+      })
+      .catch(err => {
+         res.status(400).json(err);
       });
 });
 
