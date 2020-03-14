@@ -22,13 +22,13 @@ const WorkoutSchema = new Schema({
    ]
 });
 
-WorkoutSchema.methods.setTotalDuration = function () {
+WorkoutSchema.methods.getDuration = function () {
    let total = 0;
    for (var i = 0; i < this.exercises.length; i++) {
       total += this.exercises[i].duration;
    }
    this.totalDuration = total;
-   console.log(total);
+   console.log("js" + this.totalDuration);
    return this.totalDuration;
 };
 
