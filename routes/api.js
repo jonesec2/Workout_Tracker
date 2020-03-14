@@ -1,7 +1,17 @@
-const app = require("express");
-const db = require("../models/workout");
+const router = require("express").Router();
+const db = require("../models");
 
-app.get("/api/workouts", (req,res) => {
+router.get("/api/workouts", (req,res) => {
    db.Workout.find({})
-   .then(dbWor)
-})
+   .then(dbWorkout => {
+      for (const workout of dbWorkout) {
+        workout.setTotalDuration();
+      }
+      res.json(dbWorkout);
+    })
+   .catch(err => {
+      res.status(400).json(err);
+   })
+});
+
+module.exports = router;
